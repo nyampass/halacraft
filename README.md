@@ -1,6 +1,6 @@
 # HaLaCraft
 
-<img src="./doc/screenshots/weather.png">
+<img src="./doc/screenshots/clj.png">
 
 Modding Minecraft with Clojure
 
