@@ -4,28 +4,25 @@
             [nrepl.server :refer [start-server stop-server]])
   (:import [halacraft ICorePlugin]))
 
-(defonce server (atom nil))
+(defonce repl-servers (atom {}))
 
-(defn on-enable []
-  (reset! server (start-server :port 7888)))
+  ;; (reset! server (start-server :port 7888)))
+  ;; (stop-server @server))
 
-(defn on-disable []
-  (stop-server @server))
+(defn clj-command [sender args]
+  (let [command (join " " args)]
+    (api/send-message sender ">" command)
+    (api/send-message sender (str (eval (read-string command))))))
 
-(require '[user :as u])
-
-(defn on-command [sender command label args]
-  (prn command)
-  (println "command" (.getName command) (join " " args))
-  (u/weather (keyword (get  args 0)))
-  ;; (.sendMessage sender (str (eval (read-string (join " " args)))))
+(defn on-command [sender command args]
+  (condp = (.getName command)
+    "clj" (clj-command sender args)
+    "weather-clear" (api/weather (api/world) :clear))
   true)
 
 (defrecord CorePlugin []
   ICorePlugin
-  (onEnable [_]
-    (on-enable))
-  (onDisable [_]
-    (on-disable))
+  (onEnable [_])
+  (onDisable [_])
   (onCommand [_ sender command label args]
-             (on-command sender command label args)))
+             (on-command sender command args)))

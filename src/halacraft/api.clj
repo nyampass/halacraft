@@ -1,9 +1,14 @@
 (ns halacraft.api
-  (:import [org.bukkit ChatColor Bukkit Material]))
+  (:import [org.bukkit Bukkit]))
 
-(defn broadcast [msg]
-  (Bukkit/broadcastMessage msg))
+(defn world [] (.get (Bukkit/getWorlds) 0))
 
-(defn echo [player s]
-  {:pre [player]}
-  (.sendMessage player (str s)))
+(defn send-message [sender & messages]
+  (.sendMessage sender (apply print-str messages)))
+
+(def set-storm #(.setStorm %1 %2))
+(def set-thundering #(.setThundering %1 %2))
+
+(defn weather [type]
+  (set-storm (world) (#{:rain :thunder} type))
+  (set-thundering (world) (= type :thunder)))

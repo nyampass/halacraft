@@ -9,3 +9,8 @@ commands:
     usage: /halake
     permission: halacraft.mycommand
     permission-message: You don't have the halacraft.halake permission.
+  clj:
+    description: Run Clojure code
+    usage: /clj (+ 1 2 3)
+    permission: halacraft.clj
+    permission-message: You don't have the halacraft.clj permission.
