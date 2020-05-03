@@ -1,6 +1,8 @@
 # HaLaCraft
 
-A Clojure library designed to 
+<img src="./doc/screenshots/weather.png">
+
+Modding Minecraft with Clojure
 
 ## Usage
 
