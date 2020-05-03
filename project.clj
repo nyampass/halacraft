@@ -7,6 +7,9 @@
                  [nrepl/nrepl "0.7.0"]]
   :resource-paths ["resources/plugin.yml"
                    "resources/spigot-api-1.15.2-R0.1-SNAPSHOT-shaded.jar"]
+  
+  :uberjar-exclusions [#"spigot-api-.+\.jar"]
+
   :java-source-paths ["java"]
   :repl-options {:init-ns halacraft.core}
   :profiles {:uberjar {:aot :all}})
