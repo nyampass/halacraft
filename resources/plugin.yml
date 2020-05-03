@@ -1,0 +1,11 @@
+main: halacraft.Plugin
+name: HaLaCraft
+version: 1.0
+author: Nyampass Corp.
+description: An Example plugin
+commands:
+  halake:
+    description: Run command
+    usage: /halake
+    permission: halacraft.mycommand
+    permission-message: You don't have the halacraft.halake permission.
