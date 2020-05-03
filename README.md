@@ -1,10 +1,17 @@
 # HaLaCraft
 
-<img src="./doc/screenshots/clj.png">
-
 Modding Minecraft with Clojure
 
-## Usage
+<img src="./doc/screenshots/clj.png">
+
+
+At the in-game prompt, you can execute the code of Clojure.
+
+```
+/clj (+ 1 2 3)
+```
+
+## Installation
 
 Follow these steps to download and install SpigotMC.
 
@@ -37,5 +44,4 @@ at https://www.gnu.org/software/classpath/license.html.
 
 [api]: https://hub.spigotmc.org/javadocs/spigot/
 [spigotdl]: https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar
-[cmapi]: https://ci.visualillusionsent.net/job/CanaryLib/javadoc/
 [spigotapi]: https://hub.spigotmc.org/javadocs/spigot/
