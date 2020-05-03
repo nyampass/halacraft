@@ -8,6 +8,7 @@ Modding Minecraft with Clojure
 At the in-game prompt, you can execute the code of Clojure.
 
 ```
+/clj (range 10)
 /clj (+ 1 2 3)
 ```
 
