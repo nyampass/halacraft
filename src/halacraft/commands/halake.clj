@@ -4,8 +4,9 @@
 
 (def servers (atom {}))
 
-(defn start-server! [plugin sender-name]
-  (binding [api/plugin plugin]    
+(defn start-server! [plugin player sender-name]
+  (binding [api/plugin plugin
+            api/player player]
     (let [server (nrepl/start-server)]
       (swap! servers assoc [sender-name (:port server)] server)
       server)))
@@ -17,9 +18,9 @@
 
 (defn halake-command [plugin sender command args]
   (condp = command
-    "repl" (let [server (start-server! plugin nil)]
+    "repl" (let [server (start-server! plugin sender nil)]
              (when sender
                (api/send-message sender "repl" (:port server))))
     "weather" (binding [api/plugin plugin]
-                (api/weather (api/world) :rain))
+                (api/weather :rain))
     (api/send-message sender "unknown command" command)))

@@ -1,27 +1,42 @@
 (ns halacraft.api
-  (:import [org.bukkit Bukkit]))
+  (:require [clojure.string :refer [upper-case]])
+  (:import [org.bukkit Bukkit]
+           [org.bukkit.entity EntityType]))
 
 (def ^:dynamic plugin)
+(def ^:dynamic player)
 
-(defmacro with-plugin [& body]
-  `(let [_# (do (prn {:plugin  plugin, :server (.getServer plugin)}))
-         scheduler# (.. plugin getServer getScheduler)]
+(defonce current-world (atom nil))
+
+(defn set-world! 
+  ([] (set-world! (.get (Bukkit/getWorlds) 0)))
+  ([world] (reset! current-world world)))
+
+(defmacro with-environment [& body]
+  `(let [scheduler# (.. plugin getServer getScheduler)]
      (.runTask scheduler# plugin
                (fn []
                  ~@body))))
-
-(defn world [] (.get (Bukkit/getWorlds) 0))
 
 (defn send-message [sender & messages]
   (when sender
     (.sendMessage sender (apply print-str messages))))
 
-(defn set-storm [world flg]
-  (with-plugin (.setStorm world flg)))
+(defn set-storm [flg]
+  (with-environment (.setStorm @current-world flg)))
 
-(defn set-thundering [world flg]
-  (with-plugin (.setThundering world flg)))
+(defn set-thundering [flg]
+  (with-environment (.setThundering @current-world flg)))
 
-(defn weather [world type]
-  (set-storm world (contains? #{:rain :thunder} type))
-  (set-thundering world (= type :thunder)))
+(defn weather [type]
+  (set-storm (contains? #{:rain :thunder} type))
+  (set-thundering (= type :thunder)))
+
+(defn entity-name [k]
+  (-> k name upper-case))
+
+(defn spawn [entity-name player]
+  (let [entity-name (-> entity-name name upper-case)
+        [entity] (filter #(= (.name %1) entity-name) (seq (EntityType/values)))]
+    (with-environment
+      (.spawnEntity @current-world (.getLocation player) entity))))
