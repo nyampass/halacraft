@@ -20,7 +20,7 @@ public class Plugin extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        corePlugin = (ICorePlugin)cljCorePlugin.invoke();
+        corePlugin = (ICorePlugin)cljCorePlugin.invoke(this);
         corePlugin.onEnable();
     }
 

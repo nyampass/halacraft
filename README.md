@@ -12,6 +12,19 @@ At the in-game prompt, you can execute the code of Clojure.
 /clj (+ 1 2 3)
 ```
 
+Start up the REPL server.
+
+```
+/halake repl
+```
+
+You can connect to REPL and execute the commands.
+
+```
+user=> (weather (world) :clear)
+```
+
+
 ## Installation
 
 Follow these steps to download and install SpigotMC.
