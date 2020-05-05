@@ -1,14 +1,16 @@
 (ns halacraft.commands.halake
-  (:require [halacraft.api :as api]
+  (:require [halacraft.env :as env]
+            [halacraft.api :as api]
+            [halacraft.commands :refer [run-command]]
             [nrepl.server :as nrepl]))
 
 (def servers (atom {}))
 
-(defn start-server! [plugin player sender-name]
-  (binding [api/plugin plugin
-            api/player player]
+(defn start-server! [player]
+  (binding [env/player player]
     (let [server (nrepl/start-server)]
-      (swap! servers assoc [sender-name (:port server)] server)
+      (prn {:server server :player player})
+      (swap! servers assoc [(and player (.getName player)) (:port server)] server)
       server)))
 
 (defn stop-servers! []
@@ -16,11 +18,10 @@
     (nrepl/stop-server server))
   (reset! servers {}))
 
-(defn halake-command [plugin sender command args]
-  (condp = command
-    "repl" (let [server (start-server! plugin sender nil)]
-             (when sender
-               (api/send-message sender "repl" (:port server))))
-    "weather" (binding [api/plugin plugin]
-                (api/weather :rain))
-    (api/send-message sender "unknown command" command)))
+(defmethod run-command :halake [_ sender [command & args]]
+  (condp = (keyword command)
+    :repl (let [server (start-server! sender)]
+            (api/send-message sender "start repl server. port:" (:port server)))
+    :weather (api/weather :rain)
+    (api/send-message sender "unknown command" command))
+  true)
