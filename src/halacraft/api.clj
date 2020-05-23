@@ -4,7 +4,7 @@
             [clojure.core.async :refer [chan <!! >!!]])
   (:import [org.bukkit.entity EntityType]
            [org.bukkit Material Location]
-           [org.bukkit.craftbukkit.v1_15_R1.entity CraftPlayer]))
+           [org.bukkit.entity Player]))
 
 (defn scheduler []
   (.. @env/plugin getServer getScheduler))
@@ -53,14 +53,12 @@
   (run
    (.spawnEntity @env/world (.getLocation player) (entity-name entities))))
 
-env/player
-
 (defprotocol ILocation 
   (to-location [l]))
 
 (extend Location ILocation {:to-location identity})
 
-(extend CraftPlayer ILocation {:to-location #(.getLocation %1)})
+(extend Player ILocation {:to-location #(.getLocation %1)})
 
 (defn location
   ([player-or-location] (to-location player-or-location))
