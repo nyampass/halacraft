@@ -14,6 +14,7 @@
   (onEnable [_]
             (setup! plugin)
             (run-command :halake nil ["repl"]))
+  (onDisable [_])
   (onCommand [_ sender command label args]
              (do (prn sender command label args)
                  (reset! _sender_ sender)
