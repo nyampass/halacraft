@@ -1,0 +1,3 @@
+halacraft.halake:
+  description: halake command permissions for HaLaCraft
+  default: true

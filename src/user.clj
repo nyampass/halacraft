@@ -1,5 +1,9 @@
 (ns user
-  (:require [halacraft.api :refer :all]))
+  (:require [halacraft.api :refer :all]
+            [halacraft.env :refer [plugin world player]])
+  (:import [org.bukkit Location]))
 
-(defn sleep [seconds]
-  (Thread/sleep (* seconds 1000)))
+;; (let [l (location player)]
+;;   (dotimes [i 100]
+;;     (update-type (block (location l 0 i 0))
+;;                  (:diamond-block materials))))
